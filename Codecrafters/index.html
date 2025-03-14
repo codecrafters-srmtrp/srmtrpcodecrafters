@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Crafters Club</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <style>
+        :root {
+            --primary: #7c3aed;
+            --secondary: #6d28d9;
+            --text: #e5e7eb;
+            --bg: #030303;
+            --accent: #f472b6;
+            --card: #121212;
+            --shadow: 0 8px 20px rgba(255,255,255,0.08);
+            --transition: all 0.3s ease;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; transition: var(--transition); }
+        body { background-color: var(--bg); color: var(--text); overflow-x: hidden; line-height: 1.6; }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--card); }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            backdrop-filter: blur(12px);
+            background: linear-gradient(135deg, rgba(10,10,10,0.9), rgba(50,50,50,0.7));
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            box-shadow: var(--shadow);
+        }
+
+        .logo { font-size: 1.9rem; font-weight: 600; color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; }
+        .logo i { color: var(--accent); transition: transform 0.5s; }
+        .logo:hover i { transform: rotate(360deg); }
+        .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+        .nav-links a { text-decoration: none; color: var(--text); font-weight: 500; position: relative; padding: 0.5rem 0; transition: transform 0.3s, color 0.3s; }
+        .nav-links a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: linear-gradient(to right, var(--primary), var(--accent)); transition: width 0.3s; }
+        .nav-links a:hover { transform: scale(1.1); color: var(--accent); }
+        .nav-links a:hover::after { width: 100%; }
+        .mobile-menu { background: none; border: none; color: var(--text); font-size: 1.5rem; cursor: pointer; display: none; }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 5%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #particles-js { position: absolute; width: 100%; height: 100%; z-index: -1; }
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(50,0,50,0.9), rgba(0,0,0,0.8)), url('NVIDIA_10_1800x675.jpg') no-repeat center center;
+            background-size: cover;
+            z-index: -2;
+            opacity: 0.95;
+            loading: lazy;
+        }
+
+        .hero-content { max-width: 900px; z-index: 1; position: relative; margin-top: 50px; }
+        .hero h1 { font-size: 4rem; margin-bottom: 1rem; color: var(--text); text-shadow: 0 2px 12px rgba(0,0,0,0.8); font-weight: 700; }
+        .hero h1:hover { animation: animate__pulse 0.5s; }
+        .hero h2 { font-size: 2rem; margin-top: 1rem; color: var(--accent); font-weight: 500; }
+        .letter-by-letter span {
+            opacity: 0;
+            display: inline-block;
+            animation: fadeInLetter 0.2s ease forwards;
+        }
+        @keyframes fadeInLetter {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .hero-overlay { position: absolute; bottom: 0; left: 0; width: 100%; height: 200px; background: linear-gradient(to top, var(--bg), rgba(124, 58, 237, 0.1)); z-index: 0; }
+
+        .hero-images { position: absolute; width: 100%; height: 100%; z-index: 1; }
+        .center-image { position: absolute; top: 10%; left: 50%; transform: translateX(-50%); width: 600px; height: auto; max-width: 95%; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); transition: transform 0.3s; }
+        .center-image:hover { transform: translateX(-50%) scale(1.05); }
+        .left-image { position: absolute; top: 10%; left: 1%; width: 200px; height: auto; max-width: 50%; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); transition: transform 0.3s; }
+        .left-image:hover { transform: scale(1.05); }
+        .right-image { position: absolute; top: 10%; right: 1%; width: 200px; height: auto; max-width: 50%; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); transition: transform 0.3s; }
+        .right-image:hover { transform: scale(1.05); }
+
+        .objective { padding: 6rem 5%; text-align: center; }
+        .objective p { max-width: 900px; margin: 1.5rem auto; font-size: 1.2rem; font-weight: 300; }
+
+        .coordinators { padding: 6rem 5%; }
+        .coordinators-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2.5rem; max-width: 1200px; margin: 2rem auto; }
+        .coordinator-card { background: linear-gradient(135deg, var(--card), rgba(30,30,30,0.9)); border-radius: 12px; padding: 2rem; box-shadow: var(--shadow); transition: transform 0.3s, box-shadow 0.3s, border 0.3s; }
+        .coordinator-card:hover { transform: translateY(-10px) rotate(2deg); box-shadow: 0 12px 30px rgba(124, 58, 237, 0.3); border: 1px solid var(--primary); }
+
+        .events { padding: 6rem 5%; }
+        .events-table { max-width: 900px; margin: 2rem auto; border-collapse: collapse; background: linear-gradient(135deg, var(--card), rgba(30,30,30,0.9)); box-shadow: var(--shadow); border-radius: 12px; overflow: hidden; }
+        .events-table th, .events-table td { padding: 1.2rem; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .events-table th { background: linear-gradient(90deg, var(--primary), var(--secondary)); color: var(--text); font-weight: 600; }
+        .events-table tr { transition: background 0.3s, transform 0.3s, color 0.3s; cursor: pointer; }
+        .events-table tr:hover { background: rgba(124, 58, 237, 0.15); transform: scale(1.02); color: var(--accent); }
+
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center; }
+        .modal-content { background: linear-gradient(135deg, var(--card), rgba(30,30,30,0.9)); padding: 2rem; border-radius: 12px; max-width: 500px; width: 90%; box-shadow: var(--shadow); }
+        .modal-content h3 { color: var(--primary); margin-bottom: 1rem; }
+        .close-modal { float: right; font-size: 1.5rem; cursor: pointer; color: var(--text); transition: transform 0.3s; }
+        .close-modal:hover { transform: rotate(90deg); }
+
+        .about { padding: 6rem 5%; display: flex; flex-direction: column; align-items: center; }
+        .section-title { font-size: 2.8rem; margin-bottom: 3rem; text-align: center; position: relative; font-weight: 600; background: linear-gradient(to right, var(--primary), var(--accent)); -webkit-background-clip: text; color: transparent; }
+        .section-title:hover { animation: animate__bounce 0.5s; }
+        .section-title::after { content: ''; position: absolute; bottom: -12px; left: 50%; transform: translateX(-50%); width: 60%; height: 4px; background: linear-gradient(to right, var(--primary), var(--accent)); border-radius: 2px; }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2.5rem; max-width: 1200px; }
+        .feature-card { background: linear-gradient(135deg, var(--card), rgba(30,30,30,0.9)); border-radius: 12px; padding: 2rem; box-shadow: var(--shadow); text-align: center; transition: transform 0.3s, box-shadow 0.3s, border 0.3s; }
+        .feature-card:hover { transform: translateY(-10px) rotate(2deg); box-shadow: 0 12px 30px rgba(124, 58, 237, 0.3); border: 1px solid var(--accent); }
+        .feature-card.clickable { cursor: pointer; }
+        .feature-card.clickable:hover { background: linear-gradient(135deg, rgba(30,30,30,0.9), var(--card)); }
+        .feature-icon { font-size: 3.5rem; color: var(--primary); margin-bottom: 1.5rem; transition: transform 0.5s; }
+        .feature-card:hover .feature-icon { transform: rotate(360deg); }
+        .feature-card h3 { font-size: 1.6rem; margin-bottom: 1rem; color: var(--primary); }
+        .progress-bar { width: 100%; background: rgba(255,255,255,0.1); height: 10px; border-radius: 5px; margin-top: 1rem; }
+        .progress { height: 100%; background: linear-gradient(to right, var(--primary), var(--accent)); border-radius: 5px; width: 0; transition: width 1s ease; }
+
+        footer { background: linear-gradient(135deg, var(--card), rgba(20,20,20,0.9)); padding: 4rem 5%; text-align: center; }
+        .footer-links { display: flex; justify-content: center; gap: 2.5rem; margin-bottom: 2rem; list-style: none; }
+        .footer-links a { text-decoration: none; color: var(--text); font-weight: 500; transition: color 0.3s, transform 0.3s; }
+        .footer-links a:hover { color: var(--primary); transform: scale(1.1); }
+        .social-icons { display: flex; justify-content: center; gap: 1.5rem; margin-bottom: 2rem; }
+        .social-icons a { width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(45deg, var(--primary), var(--secondary)); color: var(--text); display: flex; align-items: center; justify-content: center; transition: transform 0.3s, background 0.3s; }
+        .social-icons a:hover { transform: rotate(360deg); background: linear-gradient(45deg, var(--accent), var(--primary)); }
+        .copyright { opacity: 0.8; font-size: 1rem; }
+
+        .back-to-top { position: fixed; bottom: 20px; right: 20px; background: linear-gradient(45deg, var(--primary), var(--secondary)); color: var(--text); border: none; width: 50px; height: 50px; border-radius: 50%; display: none; justify-content: center; align-items: center; cursor: pointer; box-shadow: var(--shadow); z-index: 1000; transition: transform 0.3s, background 0.3s; }
+        .back-to-top:hover { transform: translateY(-5px) scale(1.1); background: linear-gradient(45deg, var(--secondary), var(--accent)); animation: animate__bounce 0.5s; }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.8rem; }
+            .hero h2 { font-size: 1.5rem; }
+            .nav-links { position: fixed; top: 0; right: -100%; height: 100vh; width: 70%; background: var(--bg); flex-direction: column; align-items: center; justify-content: center; transition: right 0.3s ease; box-shadow: -5px 0 15px rgba(0,0,0,0.1); }
+            .nav-links.active { right: 0; }
+            .mobile-menu { display: block; }
+            .events-table { font-size: 0.9rem; }
+            .center-image { width: 400px; top: 5%; }
+            .left-image { left: 2%; width: 150px; top: 5%; }
+            .right-image { right: 2%; width: 150px; top: 5%; }
+            .hero-content { margin-top: 30px; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="#" class="logo animate__animated animate__fadeIn"><i class="fas fa-code"></i>CodeCrafters @ SRM TRP</a>
+        <ul class="nav-links">
+            <li><a href="#home" class="nav-link">Home</a></li>
+            <li><a href="#objective" class="nav-link">Objective</a></li>
+            <li><a href="#coordinators" class="nav-link">Coordinators</a></li>
+            <li><a href="#events" class="nav-link">Events</a></li>
+            <li><a href="#about" class="nav-link">About</a></li>
+        </ul>
+        <div class="nav-buttons">
+            <button class="mobile-menu" aria-label="Toggle menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </nav>
+
+    <section class="hero" id="home">
+        <div id="particles-js"></div>
+        <div class="hero-bg"></div>
+        <div class="hero-images">
+            <img src="images/OIP.jpg" alt="NBA Logo" class="left-image animate__animated animate__fadeInLeft">
+            <img src="images/SRM-TRP-Trichy.jpg" alt="SRM TRP Logo" class="center-image animate__animated animate__fadeIn">
+            <img src="images/code crafters logo.jpg" alt="Code Crafters Logo" class="right-image animate__animated animate__fadeInRight">
+        </div>
+        <div class="hero-content animate__animated animate__fadeIn">
+            <h2 class="letter-by-letter" data-text="Department of CSE & AIDS"></h2>
+            <h1 class="letter-by-letter" data-text="Code Crafters Club"></h1>
+
+        </div>
+        <div class="hero-overlay"></div>
+    </section>
+
+    <section class="objective" id="objective">
+        <h2 class="section-title animate__animated animate__slideInUp">Our Objective</h2>
+        <p class="animate__animated animate__fadeInUp">The Code Crafters Club at SRM TRP Engineering College aims to identify and nurture individuals with exceptional programming skills, capable of crafting efficient, logical, and high-standard code.</p>
+        <p class="animate__animated animate__fadeInUp animate__delay-1s">We foster a collaborative environment through workshops, coding contests, and hackathons, encouraging members to stay ahead of technological trends while enhancing problem-solving, creativity, and teamwork.</p>
+        <p class="animate__animated animate__fadeInUp animate__delay-2s">Our members gain hands-on experience with real-world projects, compete in national and international challenges, and connect with industry experts, preparing them for thriving careers in technology.</p>
+    </section>
+
+    <section class="coordinators" id="coordinators">
+        <h2 class="section-title animate__animated animate__slideInUp">Our Coordinators</h2>
+        <div class="coordinators-grid">
+            <div class="coordinator-card animate__animated animate__fadeInLeft">
+                <h3>Faculty Coordinators</h3>
+                <p>1. Mr. V. Vijey Nathan - AP / CSE</p>
+                <p>2. Mrs. R Sampavi - AP / CSE</p>
+            </div>
+            <div class="coordinator-card animate__animated animate__fadeInRight animate__delay-1s">
+                <h3>Student grittedinators</h3>
+                <p>1. Adithya R M (2022-2026) - III year CSE A</p>
+                <p>2. Meena Dharrsini S (2022-2026) - III year CSE B</p>
+                <p>3. Srihari N (2022-2026) - III year CSE C</p>
+                <p>4. Aditya Sathiyanarayanan (2023-2027) - II year CSE A</p>
+                <p>5. Rajadurai (2023-2027) - II year CSE B</p>
+                <p>6. Syed Aahil V (2023-2027) - II year CSE C</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="events" id="events">
+        <h2 class="section-title animate__animated animate__slideInUp">Programs and Events</h2>
+        <table class="events-table animate__animated animate__fadeInUp">
+            <thead>
+                <tr>
+                    <th>S.No</th>
+                    <th>Title of the Program</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-event="1" class="animate__animated animate__flipInX"><td>1</td><td>Student Seminar Presentation on “UI/UX Basics”</td><td>29.05.2024</td></tr>
+                <tr data-event="2" class="animate__animated animate__flipInX animate__delay-1s"><td>2</td><td>Python Coding Contest - Think and Solve</td><td>18.12.2023</td></tr>
+                <tr data-event="3" class="animate__animated animate__flipInX animate__delay-2s"><td>3</td><td>Think and Solve</td><td>14.09.2023</td></tr>
+                <tr data-event="4" class="animate__animated animate__flipInX animate__delay-3s"><td>4</td><td>Python Debugging Contest</td><td>20.02.2023</td></tr>
+                <tr data-event="5" class="animate__animated animate__flipInX animate__delay-4s"><td>5</td><td>Code Genesis: Engineers Day</td><td>20.09.2024</td></tr>
+                <tr data-event="6" class="animate__animated animate__flipInX animate__delay-5s"><td>6</td><td>Code Carnival</td><td>8.11.2024</td></tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section class="about" id="about">
+        <h2 class="section-title animate__animated animate__slideInUp">Why Choose Us</h2>
+        <div class="features-grid">
+            <div class="feature-card clickable animate__animated animate__fadeInLeft" onclick="window.location.href='contest.html'">
+                <i class="fas fa-trophy feature-icon"></i>
+                <h3>Contest</h3>
+                <p>Participate in exciting coding contests.</p>
+                <div class="progress-bar"><div class="progress" style="width: 92%;"></div></div>
+            </div>
+            <div class="feature-card clickable animate__animated animate__fadeInRight" onclick="window.location.href='international-events.html'">
+                <i class="fas fa-globe feature-icon"></i>
+                <h3>International Events</h3>
+                <p>Compete on a global stage with top coders.</p>
+                <div class="progress-bar"><div class="progress" style="width: 90%;"></div></div>
+            </div>
+            <div class="feature-card clickable animate__animated animate__fadeInLeft animate__delay-1s" onclick="window.location.href='national-events.html'">
+                <i class="fas fa-flag feature-icon"></i>
+                <h3>National Events</h3>
+                <p>Join nationwide coding challenges.</p>
+                <div class="progress-bar"><div class="progress" style="width: 85%;"></div></div>
+            </div>
+            <div class="feature-card animate__animated animate__fadeInRight animate__delay-1s">
+                <i class="fas fa-laptop-code feature-icon"></i>
+                <h3>Coding Workshop</h3>
+                <p>Hands-on sessions on cutting-edge languages.</p>
+                <div class="progress-bar"><div class="progress" style="width: 95%;"></div></div>
+            </div>
+            <div class="feature-card animate__animated animate__fadeInLeft animate__delay-2s">
+                <i class="fas fa-trophy feature-icon"></i>
+                <h3>Hackathons</h3>
+                <p>Compete in top-tier coding challenges.</p>
+                <div class="progress-bar"><div class="progress" style="width: 80%;"></div></div>
+            </div>
+            <div class="feature-card animate__animated animate__fadeInRight animate__delay-2s">
+                <i class="fas fa-project-diagram feature-icon"></i>
+                <h3>Collaborative Projects</h3>
+                <p>Build real-world solutions with peers.</p>
+                <div class="progress-bar"><div class="progress" style="width: 88%;"></div></div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <ul class="footer-links"><li><a href="#">Privacy</a></li><li><a href="#">Terms</a></li><li><a href="#">FAQ</a></li><li><a href="#">Support</a></li></ul>
+        <div class="social-icons"><a href="#"><i class="fab fa-github"></i></a><a href="#"><i class="fab fa-twitter"></i></a><a href="#"><i class="fab fa-linkedin"></i></a><a href="#"><i class="fab fa-discord"></i></a></div>
+        <p class="copyright">© <span id="year"></span> Code Crafters Club, SRM TRP Engineering College. All rights reserved.</p>
+    </footer>
+
+    <button class="back-to-top" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
+
+    <div class="modal" id="event-modal">
+        <div class="modal-content">
+            <span class="close-modal">×</span>
+            <h3 id="modal-title"></h3>
+            <p id="modal-date"></p>
+            <p id="modal-details">Details coming soon...</p>
+        </div>
+    </div>
+
+    <script>
+        const mobileMenuBtn = document.querySelector('.mobile-menu');
+        const navLinks = document.querySelector('.nav-links');
+        const backToTop = document.querySelector('.back-to-top');
+        const modal = document.getElementById('event-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalDate = document.getElementById('modal-date');
+        const modalDetails = document.getElementById('modal-details');
+        const closeModal = document.querySelector('.close-modal');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate__animated');
+                    if (entry.target.classList.contains('section-title')) {
+                        entry.target.classList.add('animate__slideInUp');
+                    } else if (entry.target.classList.contains('feature-card') || entry.target.classList.contains('coordinator-card')) {
+                        entry.target.classList.add(entry.target.classList.contains('animate__fadeInLeft') ? 'animate__fadeInLeft' : 'animate__fadeInRight');
+                    } else if (entry.target.classList.contains('events-table tr')) {
+                        entry.target.classList.add('animate__flipInX');
+                    } else {
+                        entry.target.classList.add('animate__fadeInUp');
+                    }
+                    entry.target.style.opacity = 1;
+                    if (entry.target.classList.contains('feature-card')) {
+                        entry.target.querySelector('.progress').style.width = entry.target.querySelector('.progress').style.width;
+                    }
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.2 });
+
+        document.querySelectorAll('.feature-card, .coordinator-card, .section-title, .objective p, .events-table tr').forEach(el => {
+            el.style.opacity = 0;
+            observer.observe(el);
+        });
+
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            mobileMenuBtn.querySelector('i').className = navLinks.classList.contains('active') ? 'fas fa-times' : 'fas fa-bars';
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                document.querySelector(targetId).scrollIntoView({ behavior: 'smooth' });
+                navLinks.classList.remove('active');
+                mobileMenuBtn.querySelector('i').className = 'fas fa-bars';
+            });
+        });
+
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            navbar.style.background = window.scrollY > 50 ? 'linear-gradient(135deg, rgba(10,10,10,0.95), rgba(50,50,50,0.85))' : 'linear-gradient(135deg, rgba(10,10,10,0.9), rgba(50,50,50,0.7))';
+            navbar.style.padding = window.scrollY > 50 ? '0.8rem 5%' : '1rem 5%';
+            backToTop.style.display = window.scrollY > 300 ? 'flex' : 'none';
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        document.querySelectorAll('.events-table tr').forEach(row => {
+            row.addEventListener('click', () => {
+                const eventId = row.getAttribute('data-event');
+                modalTitle.textContent = row.cells[1].textContent;
+                modalDate.textContent = `Date: ${row.cells[2].textContent}`;
+                modal.style.display = 'flex';
+            });
+        });
+
+        closeModal.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) modal.style.display = 'none';
+        });
+
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 60, density: { enable: true, value_area: 800 } },
+                color: { value: '#7c3aed' },
+                shape: { type: 'circle' },
+                opacity: { value: 0.5, random: true },
+                size: { value: 3, random: true },
+                line_linked: { enable: true, distance: 150, color: '#7c3aed', opacity: 0.4, width: 1 },
+                move: { enable: true, speed: 2, direction: 'none', random: false, straight: false, out_mode: 'out' }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: { onhover: { enable: true, mode: 'repulse' }, onclick: { enable: true, mode: 'push' }, resize: true },
+                modes: { repulse: { distance: 100, duration: 0.4 }, push: { particles_nb: 4 } }
+            },
+            retina_detect: true
+        });
+
+        // Letter-by-letter animation for all .letter-by-letter elements
+        document.querySelectorAll('.letter-by-letter').forEach(title => {
+            const text = title.getAttribute('data-text');
+            title.innerHTML = '';
+            text.split('').forEach((char, index) => {
+                const span = document.createElement('span');
+                span.textContent = char === ' ' ? '\u00A0' : char;
+                span.style.animationDelay = `${index * 0.15}s`;
+                title.appendChild(span);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>International Events - Code Crafters Club</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <style>
+        :root {
+            --primary: #7c3aed;
+            --secondary: #6d28d9;
+            --text: #e5e7eb;
+            --bg: #030303;
+            --accent: #f472b6;
+            --card: #121212;
+            --shadow: 0 8px 20px rgba(255,255,255,0.08);
+            --transition: all 0.3s ease;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; transition: var(--transition); }
+        body { background-color: var(--bg); color: var(--text); overflow-x: hidden; line-height: 1.6; }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            backdrop-filter: blur(12px);
+            background: linear-gradient(135deg, rgba(10,10,10,0.9), rgba(50,50,50,0.7));
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            box-shadow: var(--shadow);
+        }
+
+        .logo { font-size: 1.9rem; font-weight: 600; color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; }
+        .logo i { color: var(--accent); transition: transform 0.5s; }
+        .logo:hover i { transform: rotate(360deg); }
+        .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+        .nav-links a { text-decoration: none; color: var(--text); font-weight: 500; position: relative; padding: 0.5rem 0; transition: transform 0.3s, color 0.3s; }
+        .nav-links a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: linear-gradient(to right, var(--primary), var(--accent)); transition: width 0.3s; }
+        .nav-links a:hover { transform: scale(1.1); color: var(--accent); }
+        .nav-links a:hover::after { width: 100%; }
+        .mobile-menu { background: none; border: none; color: var(--text); font-size: 1.5rem; cursor: pointer; display: none; }
+
+        .hero {
+            height: 50vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 5%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #particles-js { position: absolute; width: 100%; height: 100%; z-index: -1; }
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(50,0,50,0.9), rgba(0,0,0,0.8)), url('NVIDIA_10_1800x675.jpg') no-repeat center center;
+            background-size: cover;
+            z-index: -2;
+            opacity: 0.95;
+            loading: lazy;
+        }
+
+        .hero-content { max-width: 900px; z-index: 1; position: relative; }
+        .hero h1 { font-size: 3rem; margin-bottom: 1rem; color: var(--text); text-shadow: 0 2px 12px rgba(0,0,0,0.8); font-weight: 700; }
+        .hero h1:hover { animation: animate__pulse 0.5s; }
+        .hero-overlay { position: absolute; bottom: 0; left: 0; width: 100%; height: 200px; background: linear-gradient(to top, var(--bg), rgba(124, 58, 237, 0.1)); z-index: 0; }
+
+        .events-section { padding: 6rem 5%; }
+        .section-title { font-size: 2.8rem; margin-bottom: 3rem; text-align: center; position: relative; font-weight: 600; background: linear-gradient(to right, var(--primary), var(--accent)); -webkit-background-clip: text; color: transparent; }
+        .section-title:hover { animation: animate__bounce 0.5s; }
+        .section-title::after { content: ''; position: absolute; bottom: -12px; left: 50%; transform: translateX(-50%); width: 60%; height: 4px; background: linear-gradient(to right, var(--primary), var(--accent)); border-radius: 2px; }
+        .time-period { font-size: 1.6rem; color: var(--accent); margin-bottom: 1.5rem; text-align: center; }
+        .event-list { max-width: 900px; margin: 0 auto; }
+        .event-card { background: linear-gradient(135deg, var(--card), rgba(30,30,30,0.9)); border-radius: 12px; padding: 2rem; margin-bottom: 2rem; box-shadow: var(--shadow); transition: transform 0.3s, box-shadow 0.3s; }
+        .event-card:hover { transform: translateY(-10px); box-shadow: 0 12px 30px rgba(124, 58, 237, 0.3); }
+        .event-card h3 { font-size: 1.8rem; color: var(--primary); margin-bottom: 1rem; }
+        .event-card p { font-size: 1.1rem; margin: 0.5rem 0; }
+        .event-card a { color: var(--accent); text-decoration: none; font-weight: 500; transition: color 0.3s; }
+        .event-card a:hover { color: var(--primary); }
+
+        footer { background: linear-gradient(135deg, var(--card), rgba(20,20,20,0.9)); padding: 4rem 5%; text-align: center; }
+        .footer-links { display: flex; justify-content: center; gap: 2.5rem; margin-bottom: 2rem; list-style: none; }
+        .footer-links a { text-decoration: none; color: var(--text); font-weight: 500; transition: color 0.3s, transform 0.3s; }
+        .footer-links a:hover { color: var(--primary); transform: scale(1.1); }
+        .social-icons { display: flex; justify-content: center; gap: 1.5rem; margin-bottom: 2rem; }
+        .social-icons a { width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(45deg, var(--primary), var(--secondary)); color: var(--text); display: flex; align-items: center; justify-content: center; transition: transform 0.3s, background 0.3s; }
+        .social-icons a:hover { transform: rotate(360deg); background: linear-gradient(45deg, var(--accent), var(--primary)); }
+        .copyright { opacity: 0.8; font-size: 1rem; }
+
+        .back-to-top { position: fixed; bottom: 20px; right: 20px; background: linear-gradient(45deg, var(--primary), var(--secondary)); color: var(--text); border: none; width: 50px; height: 50px; border-radius: 50%; display: none; justify-content: center; align-items: center; cursor: pointer; box-shadow: var(--shadow); z-index: 1000; transition: transform 0.3s, background 0.3s; }
+        .back-to-top:hover { transform: translateY(-5px) scale(1.1); background: linear-gradient(45deg, var(--secondary), var(--accent)); animation: animate__bounce 0.5s; }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .time-period { font-size: 1.4rem; }
+            .event-card { padding: 1.5rem; }
+            .event-card h3 { font-size: 1.5rem; }
+            .event-card p { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="logo animate__animated animate__fadeIn"><i class="fas fa-code"></i>CodeCrafters @ SRM TRP</a>
+        <ul class="nav-links">
+            <li><a href="index.html#home" class="nav-link">Home</a></li>
+            <li><a href="index.html#objective" class="nav-link">Objective</a></li>
+            <li><a href="index.html#coordinators" class="nav-link">Coordinators</a></li>
+            <li><a href="index.html#events" class="nav-link">Events</a></li>
+            <li><a href="index.html#about" class="nav-link">About</a></li>
+        </ul>
+        <div class="nav-buttons">
+            <button class="mobile-menu" aria-label="Toggle menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div id="particles-js"></div>
+        <div class="hero-bg"></div>
+        <div class="hero-content animate__animated animate__fadeIn">
+            <h1>International Events</h1>
+        </div>
+        <div class="hero-overlay"></div>
+    </section>
+
+    <section class="events-section">
+        <h2 class="section-title animate__animated animate__slideInUp">International-Level Coding Contests & Conferences</h2>
+
+        <!-- January - April -->
+        <h3 class="time-period animate__animated animate__fadeInUp"></h3>
+        <div class="event-list">
+            <div class="event-card animate__animated animate__fadeInUp">
+                <h3>Google Hash Code</h3>
+                <p><strong>Time period:</strong> January to April (Annually)</p>
+                <p><strong>Place:</strong> Virtual</p>
+                <p><strong>Mode:</strong> Online</p>
+                <p><strong>Description:</strong> A team-based coding competition that involves solving real-life engineering problems.</p>
+                <p><strong>Official Website:</strong> <a href="https://hashcode.withgoogle.com/" target="_blank">Google Hash Code</a></p>
+            </div>
+            <div class="event-card animate__animated animate__fadeInUp animate__delay-1s">
+                <h3>Google Code Jam</h3>
+                <p><strong>Time period:</strong> March to August (Annually)</p>
+                <p><strong>Place:</strong> Virtual</p>
+                <p><strong>Mode:</strong> Online</p>
+                <p><strong>Description:</strong> A global coding competition with algorithmic puzzles designed for both beginners and seasoned coders.</p>
+                <p><strong>Official Website:</strong> <a href="https://codingcompetitions.withgoogle.com/codejam" target="_blank">Google Code Jam</a></p>
+            </div>
+        </div>
+
+        <!-- May - June -->
+        <h3 class="time-period animate__animated animate__fadeInUp animate__delay-2s"></h3>
+        <div class="event-list">
+            <div class="event-card animate__animated animate__fadeInUp animate__delay-2s">
+                <h3>PyCon</h3>
+                <p><strong>Time period:</strong> May-June (Annually)</p>
+                <p><strong>Place:</strong> Global (Different locations)</p>
+                <p><strong>Mode:</strong> Hybrid</p>
+                <p><strong>Description:</strong> The largest conference for the Python programming language, with various tracks covering development, data science, and more.</p>
+                <p><strong>Official Website:</strong> <a href="https://pycon.org/" target="_blank">PyCon</a></p>
+            </div>
+        </div>
+
+        <!-- July - September -->
+        <h3 class="time-period animate__animated animate__fadeInUp animate__delay-3s"></h3>
+        <div class="event-list">
+            <div class="event-card animate__animated animate__fadeInUp animate__delay-3s">
+                <h3>Facebook Hacker Cup</h3>
+                <p><strong>Time period:</strong> July to December (Annually)</p>
+                <p><strong>Place:</strong> Virtual</p>
+                <p><strong>Mode:</strong> Online</p>
+                <p><strong>Description:</strong> A global competition that challenges participants to solve algorithmic problems.</p>
+                <p><strong>Official Website:</strong> <a href="https://www.facebook.com/hackercup/" target="_blank">Facebook Hacker Cup</a></p>
+            </div>
+            <div class="event-card animate__animated animate__fadeInUp animate__delay-4s">
+                <h3>DEFCON Capture the Flag (CTF)</h3>
+                <p><strong>Time period:</strong> July-August (Annually)</p>
+                <p><strong>Place:</strong> Las Vegas, USA (Finals)</p>
+                <p><strong>Mode:</strong> Hybrid (Online and in-person finals)</p>
+                <p><strong>Description:</strong> The world’s top hacking competition, featuring challenges that focus on cybersecurity and ethical hacking.</p>
+                <p><strong>Official Website:</strong> <a href="https://www.defcon.org/html/links/dc-ctf.html" target="_blank">DEFCON CTF</a></p>
+            </div>
+            <div class="event-card animate__animated animate__fadeInUp animate__delay-5s">
+                <h3>International Collegiate Programming Contest (ICPC)</h3>
+                <p><strong>Time period:</strong> September to July (Annually)</p>
+                <p><strong>Place:</strong> Global (Multiple regional contests, World Final hosted in a different location each year)</p>
+                <p><strong>Mode:</strong> Hybrid (Regional online, in-person finals)</p>
+                <p><strong>Description:</strong> The oldest and largest programming contest for university students, testing algorithmic skills.</p>
+                <p><strong>Official Website:</strong> <a href="https://icpc.global/" target="_blank">ICPC</a></p>
+            </div>
+            <div class="event-card animate__animated animate__fadeInUp animate__delay-6s">
+                <h3>HackMIT</h3>
+                <p><strong>Time period:</strong> September (Annually)</p>
+                <p><strong>Place:</strong> MIT Campus, USA</p>
+                <p><strong>Mode:</strong> Hybrid</p>
+                <p><strong>Description:</strong> A student-run hackathon hosted at MIT, welcoming students worldwide to build projects within a weekend.</p>
+                <p><strong>Official Website:</strong> <a href="https://hackmit.org/" target="_blank">HackMIT</a></p>
+            </div>
+        </div>
+
+        <!-- October - December -->
+        <h3 class="time-period animate__animated animate__fadeInUp animate__delay-7s"></h3>
+        <div class="event-list">
+            <div class="event-card animate__animated animate__fadeInUp animate__delay-7s">
+                <h3>Topcoder Open (TCO)</h3>
+                <p><strong>Time period:</strong> Annually (November for finals)</p>
+                <p><strong>Place:</strong> Global (Online rounds, in-person finals)</p>
+                <p><strong>Mode:</strong> Hybrid</p>
+                <p><strong>Description:</strong> An annual programming competition with regional and global finals in multiple domains like algorithms, data science, and more.</p>
+                <p><strong>Official Website:</strong> <a href="https://www.topcoder.com/tco/" target="_blank">Topcoder Open</a></p>
+            </div>
+            <div class="event-card animate__animated animate__fadeInUp animate__delay-8s">
+                <h3>NeurIPS (Conference on Neural Information Processing Systems)</h3>
+                <p><strong>Time period:</strong> December (Annually)</p>
+                <p><strong>Place:</strong> Global (Usually in North America)</p>
+                <p><strong>Mode:</strong> Hybrid</p>
+                <p><strong>Description:</strong> A premier conference focused on AI, machine learning, and neural information processing.</p>
+                <p><strong>Official Website:</strong> <a href="https://neurips.cc/" target="_blank">NeurIPS</a></p>
+            </div>
+        </div>
+
+        <!-- Year-Round / Monthly Contests -->
+        <h3 class="time-period animate__animated animate__fadeInUp animate__delay-9s"></h3>
+        <div class="event-list">
+            <div class="event-card animate__animated animate__fadeInUp animate__delay-9s">
+                <h3>Kaggle Competitions</h3>
+                <p><strong>Time period:</strong> Year-round</p>
+                <p><strong>Place:</strong> Virtual</p>
+                <p><strong>Mode:</strong> Online</p>
+                <p><strong>Description:</strong> Data science competitions involving real-world datasets with a focus on machine learning and data science algorithms.</p>
+                <p><strong>Official Website:</strong> <a href="https://www.kaggle.com/competitions" target="_blank">Kaggle Competitions</a></p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <ul class="footer-links"><li><a href="#">Privacy</a></li><li><a href="#">Terms</a></li><li><a href="#">FAQ</a></li><li><a href="#">Support</a></li></ul>
+        <div class="social-icons"><a href="#"><i class="fab fa-github"></i></a><a href="#"><i class="fab fa-twitter"></i></a><a href="#"><i class="fab fa-linkedin"></i></a><a href="#"><i class="fab fa-discord"></i></a></div>
+        <p class="copyright">© <span id="year"></span> Code Crafters Club, SRM TRP Engineering College. All rights reserved.</p>
+    </footer>
+
+    <button class="back-to-top" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
+
+    <script>
+        const mobileMenuBtn = document.querySelector('.mobile-menu');
+        const navLinks = document.querySelector('.nav-links');
+        const backToTop = document.querySelector('.back-to-top');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate__animated');
+                    if (entry.target.classList.contains('section-title') || entry.target.classList.contains('time-period')) {
+                        entry.target.classList.add('animate__fadeInUp');
+                    } else {
+                        entry.target.classList.add('animate__fadeInUp');
+                    }
+                    entry.target.style.opacity = 1;
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.2 });
+
+        document.querySelectorAll('.event-card, .section-title, .time-period').forEach(el => {
+            el.style.opacity = 0;
+            observer.observe(el);
+        });
+
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            mobileMenuBtn.querySelector('i').className = navLinks.classList.contains('active') ? 'fas fa-times' : 'fas fa-bars';
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                document.querySelector(targetId).scrollIntoView({ behavior: 'smooth' });
+                navLinks.classList.remove('active');
+                mobileMenuBtn.querySelector('i').className = 'fas fa-bars';
+            });
+        });
+
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            navbar.style.background = window.scrollY > 50 ? 'linear-gradient(135deg, rgba(10,10,10,0.95), rgba(50,50,50,0.85))' : 'linear-gradient(135deg, rgba(10,10,10,0.9), rgba(50,50,50,0.7))';
+            navbar.style.padding = window.scrollY > 50 ? '0.8rem 5%' : '1rem 5%';
+            backToTop.style.display = window.scrollY > 300 ? 'flex' : 'none';
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 60, density: { enable: true, value_area: 800 } },
+                color: { value: '#7c3aed' },
+                shape: { type: 'circle' },
+                opacity: { value: 0.5, random: true },
+                size: { value: 3, random: true },
+                line_linked: { enable: true, distance: 150, color: '#7c3aed', opacity: 0.4, width: 1 },
+                move: { enable: true, speed: 2, direction: 'none', random: false, straight: false, out_mode: 'out' }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: { onhover: { enable: true, mode: 'repulse' }, onclick: { enable: true, mode: 'push' }, resize: true },
+                modes: { repulse: { distance: 100, duration: 0.4 }, push: { particles_nb: 4 } }
+            },
+            retina_detect: true
+        });
+    </script>
+</body>
+</html>
